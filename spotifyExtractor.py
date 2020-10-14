@@ -24,8 +24,15 @@ def get_songs_from_album(playlist_url):
     # First, we must tell the spotify API who we are
     token = get_token()
     spotify = spotipy.Spotify(auth=token)
-    playlist = spotipy.playlist("2TrrC2ZsH9FcMPAtP0KP4b")
-    print(playlist)
+    playlist = spotify.playlist("2HcHxIscwRkffP1ITeGsLN")
+    tracks = playlist["tracks"]
+    song_artist_lst = list()
+    for item in tracks["items"]:
+        song_name = item["track"]["name"]
+        artist_name = item["track"]["artists"][0]["name"]
+        song_artist_lst.append((song_name, artist_name))
+    print(song_artist_lst)
+    return song_artist_lst
 
 get_songs_from_album("")
 
