@@ -21,7 +21,7 @@ status = cycle(['Status 1', 'Status2 2'])
 
 bot = commands.Bot(command_prefix='!')
 
-@bot.command(name='play', help='Connects bot to a voice channel')
+@bot.command(name='play', help='Connects musicbot to a voice channel')
 async def play(ctx):
     if not ctx.message.author.voice:
         await ctx.send('You need to be connected to a voice channel.')
@@ -30,7 +30,7 @@ async def play(ctx):
         channel = ctx.message.author.voice.channel
     await channel.connect()
 
-@bot.command(name='stop', help='This command stops the bot.')
+@bot.command(name='stop', help='This command stops the musicbot.')
 async def stop(ctx):
     voice_client = ctx.message.guild.voice_client
     await voice_client.disconnect()
@@ -45,8 +45,8 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_ready():
-    # Change status of the bot!
-    #await bot.change_presence(status=discord.Status.idle, activity=discord.Game('Hello there!'))
+    # Change status of the musicbot!
+    #await musicbot.change_presence(status=discord.Status.idle, activity=discord.Game('Hello there!'))
     change_status.start()
     print(f'{bot.user.name} has connected to Discord!')
 
