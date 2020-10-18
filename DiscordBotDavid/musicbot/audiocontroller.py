@@ -165,6 +165,25 @@ class AudioController(object):
         self.voice_client.source = discord.PCMVolumeTransformer(self.guild.voice_client.source)
         self.voice_client.source.volume = float(self.volume) / 100.0
 
+    #CUSTOM
+    async def get_song_info(self, youtube_link):
+        """Downloads and plays the audio of the youtube link passed"""
+
+        youtube_link = youtube_link.split("&list=")[0]
+
+        try:
+            downloader = youtube_dl.YoutubeDL({'format': 'bestaudio', 'title': True})
+            extracted_info = downloader.extract_info(youtube_link, download=False)
+        # "format" is not available for livestreams - redownload the page with no options
+        except:
+            try:
+                downloader = youtube_dl.YoutubeDL({})
+                extracted_info = downloader.extract_info(youtube_link, download=False)
+            except:
+                self.next_song(None)
+
+        return extracted_info.get('title')
+
     async def stop_player(self):
         """Stops the player and removes all songs from the queue"""
         if self.guild.voice_client is None or (
