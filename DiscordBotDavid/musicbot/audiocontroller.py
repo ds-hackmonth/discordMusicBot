@@ -102,11 +102,10 @@ class AudioController(object):
 
         # If the track is a video title, get the corresponding video link first
         if not ("watch?v=" in track):
-            link = self.convert_to_youtube_link('"' + track + '"')
+            link = self.convert_to_youtube_link(track)
             if link is None:
-                link = self.convert_to_youtube_link(track)
-                if link is None:
-                    return
+                print("Link was None!")
+                return
         else:
             link = track
         self.playlist.add(link)
@@ -118,15 +117,17 @@ class AudioController(object):
     def convert_to_youtube_link(self, title):
         """Searches youtube for the video title and returns the first results video link"""
 
-        filter(lambda x: x in set(printable), title)
+        # filter(lambda x: x in set(printable), title)
 
         # Parse the search result page for the first results link
         query = urllib.parse.quote(title)
         url = "https://www.youtube.com/results?search_query=" + query
         response = urllib.request.urlopen(url)
         html = response.read()
+        print(html)
         soup = BeautifulSoup(html, "html.parser")
-        results = soup.findAll(attrs={'class': 'yt-uix-tile-link'})
+        results = soup.find_all(attrs={'class': 'yt-simple-endpoint style-scope ytd-video-renderer'})
+        print(results)
         checked_videos = 0;
         while len(results) > checked_videos:
             if not "user" in results[checked_videos]['href']:
@@ -149,39 +150,6 @@ class AudioController(object):
                 extracted_info = downloader.extract_info(youtube_link, download=False)
             except:
                 self.next_song(None)
-
-        # Update the songinfo to reflect the current song
-        self.current_songinfo = Songinfo(extracted_info.get('uploader'), extracted_info.get('creator'),
-                                         extracted_info.get('title'), extracted_info.get('duration'),
-                                         extracted_info.get('like_count'), extracted_info.get('dislike_count'),
-                                         extracted_info.get('webpage_url'))
-
-        # Change the nickname to indicate, what song is currently playing
-        await self.guild.me.edit(nick=playing_string(extracted_info.get('title')))
-        self.playlist.add_name(extracted_info.get('title'))
-
-        self.voice_client.play(discord.FFmpegPCMAudio(extracted_info['url']), after=lambda e: self.next_song(e))
-        self.voice_client.source = discord.PCMVolumeTransformer(self.guild.voice_client.source)
-        self.voice_client.source.volume = float(self.volume) / 100.0
-
-    #CUSTOM
-    # async def get_song_info(self, youtube_link):
-    #     """Downloads and plays the audio of the youtube link passed"""
-    #
-    #     youtube_link = youtube_link.split("&list=")[0]
-    #
-    #     try:
-    #         downloader = youtube_dl.YoutubeDL({'format': 'bestaudio', 'title': True})
-    #         extracted_info = downloader.extract_info(youtube_link, download=False)
-    #     # "format" is not available for livestreams - redownload the page with no options
-    #     except:
-    #         try:
-    #             downloader = youtube_dl.YoutubeDL({})
-    #             extracted_info = downloader.extract_info(youtube_link, download=False)
-    #         except:
-    #             self.next_song(None)
-    #
-    #     return
 
         # Update the songinfo to reflect the current song
         self.current_songinfo = Songinfo(extracted_info.get('uploader'), extracted_info.get('creator'),
