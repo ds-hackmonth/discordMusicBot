@@ -9,6 +9,7 @@ class Playlist:
     def __init__(self):
         # Stores the ytlinks os the songs in queue and the ones already played
         self.playque = deque()
+
         self.playhistory = deque()
 
         # A seperate history that remembers the names of the tracks that were played

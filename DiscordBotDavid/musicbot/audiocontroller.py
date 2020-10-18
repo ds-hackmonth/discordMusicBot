@@ -9,6 +9,7 @@ import config
 from musicbot.playlist import Playlist
 from musicbot.songinfo import Songinfo
 
+from musicbot import utils
 
 def playing_string(title):
     """Formats the name of the current song to better fit the nickname format."""
@@ -109,6 +110,8 @@ class AudioController(object):
         else:
             link = track
         self.playlist.add(link)
+
+        self.playlist.add_name()
         if len(self.playlist.playque) == 1:
             await self.play_youtube(link)
 
@@ -146,6 +149,39 @@ class AudioController(object):
                 extracted_info = downloader.extract_info(youtube_link, download=False)
             except:
                 self.next_song(None)
+
+        # Update the songinfo to reflect the current song
+        self.current_songinfo = Songinfo(extracted_info.get('uploader'), extracted_info.get('creator'),
+                                         extracted_info.get('title'), extracted_info.get('duration'),
+                                         extracted_info.get('like_count'), extracted_info.get('dislike_count'),
+                                         extracted_info.get('webpage_url'))
+
+        # Change the nickname to indicate, what song is currently playing
+        await self.guild.me.edit(nick=playing_string(extracted_info.get('title')))
+        self.playlist.add_name(extracted_info.get('title'))
+
+        self.voice_client.play(discord.FFmpegPCMAudio(extracted_info['url']), after=lambda e: self.next_song(e))
+        self.voice_client.source = discord.PCMVolumeTransformer(self.guild.voice_client.source)
+        self.voice_client.source.volume = float(self.volume) / 100.0
+
+    #CUSTOM
+    # async def get_song_info(self, youtube_link):
+    #     """Downloads and plays the audio of the youtube link passed"""
+    #
+    #     youtube_link = youtube_link.split("&list=")[0]
+    #
+    #     try:
+    #         downloader = youtube_dl.YoutubeDL({'format': 'bestaudio', 'title': True})
+    #         extracted_info = downloader.extract_info(youtube_link, download=False)
+    #     # "format" is not available for livestreams - redownload the page with no options
+    #     except:
+    #         try:
+    #             downloader = youtube_dl.YoutubeDL({})
+    #             extracted_info = downloader.extract_info(youtube_link, download=False)
+    #         except:
+    #             self.next_song(None)
+    #
+    #     return
 
         # Update the songinfo to reflect the current song
         self.current_songinfo = Songinfo(extracted_info.get('uploader'), extracted_info.get('creator'),
