@@ -1,5 +1,5 @@
 #from config import config
-import config
+import referenceBot.config
 
 class Songinfo:
     """A wrapper for information about the song currently being played."""

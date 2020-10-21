@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 
 #import config
-from config import *
+from referenceBot.config import *
 from referenceBot.audiocontroller import AudioController
 from referenceBot.utils import guild_to_audiocontroller
 
