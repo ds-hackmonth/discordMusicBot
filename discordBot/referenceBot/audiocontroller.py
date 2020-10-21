@@ -5,7 +5,10 @@ import discord
 import youtube_dl
 from bs4 import BeautifulSoup
 
-import config
+# import importlib
+# moduleName = "config"
+# importlib.import_module(moduleName)
+import referenceBot.config as config
 from referenceBot.playlist import Playlist
 from referenceBot.songinfo import Songinfo
 

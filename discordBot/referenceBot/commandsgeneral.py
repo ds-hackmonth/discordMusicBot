@@ -1,8 +1,8 @@
 from discord.ext import commands
 
-import config 
-from musicbot import utils
-from musicbot.audiocontroller import AudioController
+import referenceBot.config as config
+import referenceBot.utils as utils
+from referenceBot.audiocontroller import AudioController
 
 
 class General(commands.Cog):
