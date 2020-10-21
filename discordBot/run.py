@@ -7,7 +7,7 @@ from referenceBot.audiocontroller import AudioController
 from referenceBot.utils import guild_to_audiocontroller
 
 #initial_extensions = ['musicbot.commands.music', 'musicbot.commands.general']
-initial_extensions = ['musicbot.commandsmusic', 'musicbot.commandsgeneral', 'musicbot.commandstest']
+initial_extensions = ['referenceBot.commandsmusic', 'referenceBot.commandsgeneral', 'referenceBot.commandstest']
 bot = commands.Bot(command_prefix="!", pm_help=True)
 
 if __name__ == '__main__':
