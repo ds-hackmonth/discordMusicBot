@@ -6,10 +6,10 @@ import youtube_dl
 from bs4 import BeautifulSoup
 
 import config
-from musicbot.playlist import Playlist
-from musicbot.songinfo import Songinfo
+from referenceBot.playlist import Playlist
+from referenceBot.songinfo import Songinfo
 
-from musicbot import utils
+from referenceBot import utils
 
 def playing_string(title):
     """Formats the name of the current song to better fit the nickname format."""

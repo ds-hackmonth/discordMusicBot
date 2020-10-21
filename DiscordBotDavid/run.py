@@ -3,8 +3,8 @@ from discord.ext import commands
 
 #import config
 from config import *
-from musicbot.audiocontroller import AudioController
-from musicbot.utils import guild_to_audiocontroller
+from referenceBot.audiocontroller import AudioController
+from referenceBot.utils import guild_to_audiocontroller
 
 #initial_extensions = ['musicbot.commands.music', 'musicbot.commands.general']
 initial_extensions = ['musicbot.commandsmusic', 'musicbot.commandsgeneral', 'musicbot.commandstest']
