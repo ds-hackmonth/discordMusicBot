@@ -57,8 +57,6 @@ def get_songs_from_album(playlist_url):
     print(song_artist_lst)
     return song_artist_lst
 
-get_songs_from_album("https://open.spotify.com/playlist/74sUjcvpGfdOvCHvgzNEDO?si=cHWAVr01QhyqldKiDn-NAg")
-
 
 
 

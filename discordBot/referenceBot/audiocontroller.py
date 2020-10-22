@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import referenceBot.config as config
 from referenceBot.playlist import Playlist
 from referenceBot.songinfo import Songinfo
+from spotifyExtractor import get_songs_from_album
 
 from referenceBot import utils
 
@@ -84,6 +85,10 @@ class AudioController(object):
             coro = self.play_youtube(next_song)
 
         self.bot.loop.create_task(coro)
+
+    def add_spotify_album(self, link):
+        # spotify_songs = get_songs_from_album(link)
+        pass 
 
     async def add_youtube(self, link):
         """Processes a youtube link and passes elements of a playlist to the add_song function one by one"""
