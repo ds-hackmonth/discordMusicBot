@@ -132,10 +132,10 @@ class AudioController(object):
         url = "https://www.youtube.com/results?search_query=" + query
         response = urllib.request.urlopen(url)
         html = response.read()
-        print(html)
         soup = BeautifulSoup(html, "html.parser")
-        results = soup.find_all(attrs={'class': 'yt-simple-endpoint style-scope ytd-video-renderer'})
+        results = soup.find_all(attrs={'class': 'yt-simple-endpoint inline-block style-scope ytd-thumbnail'})
         print(results)
+        return
         checked_videos = 0;
         while len(results) > checked_videos:
             if not "user" in results[checked_videos]['href']:

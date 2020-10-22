@@ -26,7 +26,7 @@ class Music(commands.Cog):
 
 
     # FIXME: Not Yet Ready
-    @commands.command(name='spotify', description = "Enter a spotify playlist url to queue songs" help = "Placeholder")
+    @commands.command(name='spotify', description = "Enter a spotify playlist url to queue songs", help = "Placeholder")
     async def _spotify(self, ctx, *, playlist_url: str):
         current_guild = utils.get_guild(self.bot, ctx.message)
 
