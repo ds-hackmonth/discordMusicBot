@@ -60,7 +60,7 @@ class Tests(commands.Cog):
         pos = 0
         for url in p_list:
             title = audiocontroller.get_song_info(url)
-            await ctx.send(str(pos) + ": " + title)
+            await ctx.send(str(pos) + ": ")
             pos += 1
 
         # await ctx.message.author.send(songinfo.output)
@@ -91,8 +91,8 @@ class Tests(commands.Cog):
         await ctx.send("Moved song from position " + old_pos + " to position " + new_pos)
 
     @commands.command(name='ping', description='Returns the latency', help='Returns ping')
-    async def ping(ctx):
-        await ctx.send(f'{round(run.bot.latency * 1000)} ms')
+    async def ping(self, ctx):
+        await ctx.send(f'{round(self.bot.latency * 1000)} ms')
 
     @commands.command(name='shuffle', description='Shuffles the queue', help='Shuffles queue')
     async def _shuffle(self, ctx):
