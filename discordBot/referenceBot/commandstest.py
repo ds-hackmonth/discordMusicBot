@@ -103,7 +103,7 @@ class Tests(commands.Cog):
         p_list = utils.guild_to_audiocontroller[current_guild].playlist
         queue = p_list.playque  # get_deque()
         new_queue = deque()
-        length = queue.size()
+        length = len(queue)
         for i in range(length):
             num = random.randint(0, queue.size())
             url = queue.pop(num)
@@ -137,7 +137,7 @@ class Tests(commands.Cog):
         pos = 0
         for url in p_list:
             title = audiocontroller.get_song_info(url)
-            await ctx.send(str(pos) + ": " + title)
+            await ctx.send(str(pos) + ": ")
             pos += 1
 
     #can also try implementing loopqueue
