@@ -113,7 +113,7 @@ class AudioController(object):
             link = track
         self.playlist.add(link)
 
-        self.playlist.add_name()
+        self.playlist.add_name(track)
         if len(self.playlist.playque) == 1:
             await self.play_youtube(link)
 

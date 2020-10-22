@@ -3,8 +3,6 @@ from discord.ext import commands
 import referenceBot.utils as utils
 import referenceBot.config as config
 
-import run
-
 import random
 from collections import deque
 
@@ -112,20 +110,20 @@ class Tests(commands.Cog):
             new_queue.append(url)
         p_list.playque = new_queue
 
-    @commands.command(name='queue', description='Loops the current song', help='Loops song')
-    async def _loop(self, ctx):
-        current_guild = utils.get_guild(self.bot, ctx.message)
-        if current_guild is None:
-            await utils.send_message(ctx, config.NO_GUILD_MESSAGE)
-            return
-        p_list = utils.guild_to_audiocontroller[current_guild].playlist.playque  # get_deque()
-        audiocontroller = utils.guild_to_audiocontroller[current_guild]
-        await ctx.send("```\n" + "Upcoming Songs : \n```")
-        pos = 0
-        for url in p_list:
-            title = audiocontroller.get_song_info(url)
-            await ctx.send(str(pos) + ": " + title)
-            pos += 1
+    # @commands.command(name='queue', description='Loops the current song', help='Loops song')
+    # async def _loop(self, ctx):
+    #     current_guild = utils.get_guild(self.bot, ctx.message)
+    #     if current_guild is None:
+    #         await utils.send_message(ctx, config.NO_GUILD_MESSAGE)
+    #         return
+    #     p_list = utils.guild_to_audiocontroller[current_guild].playlist.playque  # get_deque()
+    #     audiocontroller = utils.guild_to_audiocontroller[current_guild]
+    #     await ctx.send("```\n" + "Upcoming Songs : \n```")
+    #     pos = 0
+    #     for url in p_list:
+    #         title = audiocontroller.get_song_info(url)
+    #         await ctx.send(str(pos) + ": " + title)
+    #         pos += 1
 
     @commands.command(name='seek', description='Loops the current song', help='Loops song')
     async def _seek(self, ctx):

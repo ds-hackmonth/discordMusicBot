@@ -1,5 +1,5 @@
 #from config import config
-import referenceBot.config
+import referenceBot.config as config
 
 # A dictionary that remembers which guild belongs to which audiocontroller
 guild_to_audiocontroller = {}

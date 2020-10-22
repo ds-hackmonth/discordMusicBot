@@ -1,7 +1,7 @@
 from collections import deque
 
 #from config import config
-import referenceBot.config
+import referenceBot.config as config
 
 class Playlist:
     """Stores the youtube links of songs to be played and already played and offers basic operation on the queues"""
