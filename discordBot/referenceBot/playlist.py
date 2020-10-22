@@ -27,6 +27,8 @@ class Playlist:
         self.playque.append(track)
 
     def next(self):
+        if not len(self.playque):
+            return "No more songs in queue."
         song_played = self.playque.popleft()
         if song_played != "Dummy":
             self.playhistory.append(song_played)
