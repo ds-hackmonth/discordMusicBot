@@ -24,6 +24,21 @@ class Music(commands.Cog):
             return
         await audiocontroller.add_youtube(track)
 
+
+    # FIXME: Not Yet Ready
+    @commands.command(name='spotify', description = "Enter a spotify playlist url to queue songs", help = "Placeholder")
+    async def _spotify(self, ctx, *, playlist_url: str):
+        current_guild = utils.get_guild(self.bot, ctx.message)
+
+        if current_guild is None:
+            await utils.send_message(ctx, config.NO_GUILD_MESSAGE)
+            return
+        audiocontroller = utils.guild_to_audiocontroller[current_guild]
+
+        if track.isspace() or not track:
+            return
+        await audiocontroller.add_spotify_album(playlist_url)
+
     @commands.command(name='pause', description= config.HELP_PAUSE_LONG, help = config.HELP_PAUSE_SHORT)
     async def _pause(self, ctx):
         current_guild = utils.get_guild(self.bot, ctx.message)
@@ -78,30 +93,30 @@ class Music(commands.Cog):
 
         utils.guild_to_audiocontroller[current_guild].volume = volume
 
-    @commands.command(name='spotify', description = config.HELP_SPOTIFY_LONG, help = config.HELP_SPOTIFY_SHORT)
-    async def _spotify(self, ctx,  *, nick_name=None):
-        current_guild = utils.get_guild(self.bot, ctx.message)
-        if current_guild is None:
-            await utils.send_message(ctx, config.NO_GUILD_MESSAGE)
-            return
+    # @commands.command(name='spotify', description = config.HELP_SPOTIFY_LONG, help = config.HELP_SPOTIFY_SHORT)
+    # async def _spotify(self, ctx,  *, nick_name=None):
+    #     current_guild = utils.get_guild(self.bot, ctx.message)
+    #     if current_guild is None:
+    #         await utils.send_message(ctx, config.NO_GUILD_MESSAGE)
+    #         return
 
-        spotify_member = None
-        if not nick_name or nick_name.isspace():
-            spotify_member = ctx.message.author
+    #     spotify_member = None
+    #     if not nick_name or nick_name.isspace():
+    #         spotify_member = ctx.message.author
 
-        else:
-            for channel in current_guild.voice_channels:
-                for member in channel.members:
-                    if member.nick == nick_name or (member.nick is None and member.name == nick_name):
-                        spotify_member = member
+    #     else:
+    #         for channel in current_guild.voice_channels:
+    #             for member in channel.members:
+    #                 if member.nick == nick_name or (member.nick is None and member.name == nick_name):
+    #                     spotify_member = member
 
-        if spotify_member is None:
-            return
-        if spotify_member.activity.name != "Spotify":
-            return
-        song = spotify_member.activity.title + " " + spotify_member.activity.artist
+    #     if spotify_member is None:
+    #         return
+    #     if spotify_member.activity.name != "Spotify":
+    #         return
+    #     song = spotify_member.activity.title + " " + spotify_member.activity.artist
 
-        await utils.guild_to_audiocontroller[current_guild].add_song(song)
+    #     await utils.guild_to_audiocontroller[current_guild].add_song(song)
 
     @commands.command(name='songinfo', description = config.HELP_SONGINFO_LONG, help = config.HELP_SONGINFO_SHORT)
     async def _songinfo(self, ctx):

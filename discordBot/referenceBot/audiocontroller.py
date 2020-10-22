@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import referenceBot.config as config
 from referenceBot.playlist import Playlist
 from referenceBot.songinfo import Songinfo
+from spotifyExtractor import get_songs_from_album
 
 from referenceBot import utils
 
@@ -85,6 +86,10 @@ class AudioController(object):
 
         self.bot.loop.create_task(coro)
 
+    def add_spotify_album(self, link):
+        # spotify_songs = get_songs_from_album(link)
+        pass 
+
     async def add_youtube(self, link):
         """Processes a youtube link and passes elements of a playlist to the add_song function one by one"""
 
@@ -127,10 +132,10 @@ class AudioController(object):
         url = "https://www.youtube.com/results?search_query=" + query
         response = urllib.request.urlopen(url)
         html = response.read()
-        print(html)
         soup = BeautifulSoup(html, "html.parser")
-        results = soup.find_all(attrs={'class': 'yt-simple-endpoint style-scope ytd-video-renderer'})
+        results = soup.find_all(attrs={'class': 'yt-simple-endpoint inline-block style-scope ytd-thumbnail'})
         print(results)
+        return
         checked_videos = 0;
         while len(results) > checked_videos:
             if not "user" in results[checked_videos]['href']:
