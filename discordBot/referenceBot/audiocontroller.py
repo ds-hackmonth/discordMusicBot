@@ -153,6 +153,7 @@ class AudioController(object):
         # "format" is not available for livestreams - redownload the page with no options
         except:
             print("Error extracting audio from youtube.")
+            return
             # try:
             #     downloader = youtube_dl.YoutubeDL({})
             #     extracted_info = downloader.extract_info(youtube_link, download=False)
