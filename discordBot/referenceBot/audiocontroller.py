@@ -4,6 +4,7 @@ from string import printable
 import discord
 import youtube_dl
 from bs4 import BeautifulSoup
+import re
 
 # import importlib
 # moduleName = "config"
@@ -86,6 +87,7 @@ class AudioController(object):
 
         self.bot.loop.create_task(coro)
 
+    #FIXME
     def add_spotify_album(self, link):
         # spotify_songs = get_songs_from_album(link)
         pass 
@@ -131,17 +133,14 @@ class AudioController(object):
         query = urllib.parse.quote(title)
         url = "https://www.youtube.com/results?search_query=" + query
         response = urllib.request.urlopen(url)
-        html = response.read()
-        soup = BeautifulSoup(html, "html.parser")
-        results = soup.find_all(attrs={'class': 'yt-simple-endpoint inline-block style-scope ytd-thumbnail'})
-        print(results)
-        return
-        checked_videos = 0;
-        while len(results) > checked_videos:
-            if not "user" in results[checked_videos]['href']:
-                return 'https://www.youtube.com' + results[checked_videos]['href']
-            checked_videos += 1
-        return None
+        html = response.read().decode("utf-8")
+        # print(html)
+        # m = re.search('watchEndpoint":{"videoId":"([\d|\w]+)', '"watchEndpoint":{"videoId":"YQHsXMglC9A”, "some other shit here",')
+        m = re.search('watchEndpoint":{"videoId":"([\d|\w|-]+)', html)
+        if not m:
+            print("Couldn't find regex match.")
+            return
+        return 'https://www.youtube.com/watch?v=' + m.group(1)
 
     async def play_youtube(self, youtube_link):
         """Downloads and plays the audio of the youtube link passed"""
@@ -153,11 +152,13 @@ class AudioController(object):
             extracted_info = downloader.extract_info(youtube_link, download=False)
         # "format" is not available for livestreams - redownload the page with no options
         except:
-            try:
-                downloader = youtube_dl.YoutubeDL({})
-                extracted_info = downloader.extract_info(youtube_link, download=False)
-            except:
-                self.next_song(None)
+            print("Error extracting audio from youtube.")
+            return
+            # try:
+            #     downloader = youtube_dl.YoutubeDL({})
+            #     extracted_info = downloader.extract_info(youtube_link, download=False)
+            # except:
+            #     self.next_song(None)
 
         # Update the songinfo to reflect the current song
         self.current_songinfo = Songinfo(extracted_info.get('uploader'), extracted_info.get('creator'),

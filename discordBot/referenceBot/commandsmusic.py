@@ -25,7 +25,7 @@ class Music(commands.Cog):
         await audiocontroller.add_youtube(track)
 
 
-    # FIXME: Not Yet Ready
+    #FIXME: Not Yet Ready
     @commands.command(name='spotify', description = "Enter a spotify playlist url to queue songs", help = "Placeholder")
     async def _spotify(self, ctx, *, playlist_url: str):
         current_guild = utils.get_guild(self.bot, ctx.message)
@@ -35,7 +35,7 @@ class Music(commands.Cog):
             return
         audiocontroller = utils.guild_to_audiocontroller[current_guild]
 
-        if track.isspace() or not track:
+        if playlist_url.isspace() or not playlist_url:
             return
         await audiocontroller.add_spotify_album(playlist_url)
 
