@@ -88,9 +88,14 @@ class AudioController(object):
         self.bot.loop.create_task(coro)
 
     #FIXME
-    def add_spotify_album(self, link):
-        # spotify_songs = get_songs_from_album(link)
-        pass 
+    async def add_spotify_album(self, link):
+        spotify_songs = get_songs_from_album(link)
+        # See if we are returned a valid response
+        if not spotify_songs:
+            print("Spotify extractor failed.")
+            return
+        for song in spotify_songs:
+            await self.add_youtube(song[0] + song[1]) 
 
     async def add_youtube(self, link):
         """Processes a youtube link and passes elements of a playlist to the add_song function one by one"""
