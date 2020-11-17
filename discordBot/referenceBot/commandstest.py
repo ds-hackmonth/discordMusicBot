@@ -60,7 +60,7 @@ class Tests(commands.Cog):
         pos = 0
         for url in p_list:
             title = audiocontroller.get_song_info(url)
-            await ctx.send(str(pos) + ": ")
+            await ctx.send(str(pos) + ": " + str(title))
             pos += 1
 
         # await ctx.message.author.send(songinfo.output)

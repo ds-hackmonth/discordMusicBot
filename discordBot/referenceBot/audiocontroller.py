@@ -16,6 +16,9 @@ from spotifyExtractor import get_songs_from_album
 
 from referenceBot import utils
 
+#NEW 11-13
+import requests
+
 def playing_string(title):
     """Formats the name of the current song to better fit the nickname format."""
     filter(lambda x: x in set(printable), title)
@@ -97,6 +100,17 @@ class AudioController(object):
         for song in spotify_songs:
             await self.add_youtube(song[0] + song[1]) 
 
+    # #CUSTOM FUNCTION 11/13/20 by David
+    # async def add_youtube_custom(self, link):
+    #     query_string = urllib.parse.urlencode({
+    #         'search_query': link
+    #     })
+    #     htm_content = urllib.request.urlopen(
+    #         'http://www.youtube.com/results?' + query_string
+    #     )
+    #     search_results = re.findall('href=\"\\/watch\\?v=(.{11})', htm_content.read().decode())
+    #     await ctx.send()
+
     async def add_youtube(self, link):
         """Processes a youtube link and passes elements of a playlist to the add_song function one by one"""
 
@@ -105,12 +119,31 @@ class AudioController(object):
             await self.add_song(link)
             return
 
+        sourceCode = requests.get(link).text
+        soup = BeautifulSoup(sourceCode, 'html.parser')
+        domain = 'https://www.youtube.com'
+        for link in soup.find_all("a", {"dir": "ltr"}):
+            href = link.get('href')
+            if href.startswith('/watch?'):
+                print(link.string.strip())
+                print(domain + href + '\n')
+
+        # print("testing")
+        # r = requests.get(link)
+        # page = r.text
+        # soup = BeautifulSoup(page, 'html.parser')
+        # res = soup.find_all('a', {'class': 'pl-video-title-link'})
+        # for l in res:
+        #     print
+        #     l.get("href")
+
         # Parse the playlist page html and get all the individual video links
-        response = urllib.request.urlopen(link)
-        soup = BeautifulSoup(response.read(), "html.parser")
-        res = soup.find_all('a', {'class': 'pl-video-title-link'})
-        for l in res:
-            await self.add_song('https://www.youtube.com' + l.get("href"))
+        # response = urllib.request.urlopen(link)
+        # soup = BeautifulSoup(response.read(), "html.parser")
+        # res = soup.find_all('a', {'class': 'pl-video-title-link'})
+        # print("RES", res)
+        # for l in res:
+        #     await self.add_song('https://www.youtube.com' + l.get("href"))
 
     async def add_song(self, track):
         """Adds the track to the playlist instance and plays it, if it is the first song"""

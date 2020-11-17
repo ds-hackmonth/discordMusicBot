@@ -4,7 +4,8 @@ import spotipy
 import spotipy.oauth2 as oauth2
 import re
 
-CLI_ID = "c031db81e9e841c382309dac036c36ae"
+#CLI_ID = "c031db81e9e841c382309dac036c36ae"
+CLI_ID = "6091268a186e4c6996198bf7749090e2"
 CLI_KEY = os.environ.get("spotifyDiscordBotSecret")
 if CLI_KEY is None:
     print("You have not added the spotify Client secret as an environment variable. Exiting.")
