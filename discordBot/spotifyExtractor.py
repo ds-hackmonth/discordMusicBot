@@ -4,8 +4,8 @@ import spotipy
 import spotipy.oauth2 as oauth2
 import re
 
-#CLI_ID = "c031db81e9e841c382309dac036c36ae"
-CLI_ID = "6091268a186e4c6996198bf7749090e2"
+CLI_ID = "c031db81e9e841c382309dac036c36ae"
+# CLI_ID = "6091268a186e4c6996198bf7749090e2"
 CLI_KEY = os.environ.get("spotifyDiscordBotSecret")
 if CLI_KEY is None:
     print("You have not added the spotify Client secret as an environment variable. Exiting.")
@@ -22,7 +22,10 @@ def get_token():
 def extract_playlist_id(playlist_url):
     # If the user passes in an html link
     if playlist_url.startswith("https") or playlist_url.startswith("open.spotify"):
-        playlist_id = re.search("playlist\/(.*)\?", playlist_url).group(1)
+        playlist_id = re.search("playlist\/(.*)\?", playlist_url)
+        if playlist_id is None:
+            playlist_id = playlist_id = re.search("playlist\/(.*)", playlist_url)
+        playlist_id = playlist_id.group(1)
         return playlist_id
 
     # The user passes in a spotify URI  
