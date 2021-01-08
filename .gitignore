@@ -4,3 +4,4 @@ venv
 __pycache__
 .idea
 musicbot/__pycache__
+discordBot/.env.txt
